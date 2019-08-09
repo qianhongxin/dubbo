@@ -110,8 +110,10 @@ public abstract class FailbackRegistry implements org.apache.dubbo.registry.Regi
 
     public abstract void doUnregister(URL url);
 
+    // 订阅，观查者模式
     public abstract void doSubscribe(URL url, NotifyListener listener);
 
+    // 取消订阅，观查者模式
     public abstract void doUnsubscribe(URL url, NotifyListener listener);
 
     @Override

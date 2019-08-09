@@ -129,5 +129,7 @@ public abstract class AbstractRetryTask implements TimerTask {
         }
     }
 
+    // template method
+    // 不同的注册中心，重试的方法不同
     protected abstract void doRetry(URL url, FailbackRegistry registry, Timeout timeout);
 }

@@ -72,6 +72,7 @@ public abstract class FailbackRegistry extends AbstractRegistry {
         this.retryPeriod = url.getParameter(REGISTRY_RETRY_PERIOD_KEY, DEFAULT_REGISTRY_RETRY_PERIOD);
 
         // since the retry task will not be very much. 128 ticks is enough.
+        // timer定时器 任务调度 重试失败的
         retryTimer = new HashedWheelTimer(new NamedThreadFactory("DubboRegistryRetryTimer", true), retryPeriod, TimeUnit.MILLISECONDS, 128);
     }
 
@@ -252,6 +253,7 @@ public abstract class FailbackRegistry extends AbstractRegistry {
             }
 
             // Record a failed registration request to a failed list, retry regularly
+            // 将失败的注册请求记录到失败的列表中，定期重试
             addFailedRegistered(url);
         }
     }
@@ -282,6 +284,7 @@ public abstract class FailbackRegistry extends AbstractRegistry {
             }
 
             // Record a failed registration request to a failed list, retry regularly
+            // 将失败的取消注册请求记录到失败的列表中，定期重试
             addFailedUnregistered(url);
         }
     }
@@ -316,6 +319,7 @@ public abstract class FailbackRegistry extends AbstractRegistry {
             }
 
             // Record a failed registration request to a failed list, retry regularly
+            // 将失败的订阅请求记录到失败的列表中，定期重试
             addFailedSubscribed(url, listener);
         }
     }
@@ -344,6 +348,7 @@ public abstract class FailbackRegistry extends AbstractRegistry {
             }
 
             // Record a failed registration request to a failed list, retry regularly
+            // 将失败的取消订阅请求记录到失败的列表中，定期重试
             addFailedUnsubscribed(url, listener);
         }
     }
@@ -407,9 +412,9 @@ public abstract class FailbackRegistry extends AbstractRegistry {
     public abstract void doRegister(URL url);
 
     public abstract void doUnregister(URL url);
-
+    // 订阅，观查者模式
     public abstract void doSubscribe(URL url, NotifyListener listener);
-
+    // 取消订阅，观查者模式
     public abstract void doUnsubscribe(URL url, NotifyListener listener);
 
     static class Holder {
