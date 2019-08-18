@@ -1,10 +1,20 @@
 1. dubbo各个层之间用接口隔离。做到依赖倒置，ioc。spring中也是这样的设计，业务代码各层也是接口隔离
 
 
-2. dubbo 是all in one 设计。熔断，限流，负载均衡等都是在业务代码的sdk中。理解整个流程，对bean的修改
+2. dubbo 是all in one 设计。熔断，限流，负载均衡等都是在业务代码的sdk中。理解整个流程，对bean的修改。
+spring cloud 搭积木
+k8s sidecar模式等
+
+各种mesh
 
 
 3. 重试实现：
 job（ScheduledExecutorService,timer,spring调度,xxl-job,quartz等）
 spring retry
 自己写等
+
+4. 注册中心：各种注册中心，比如redis，zk等，dubbo都有对应的client去对接，服务注册上后，会有回掉来notify
+
+5. @Reference 和 @Service 注解标示的类，被dubbo生成的对象就是invoker对象
+
+6. 在创建dubbo中的各个对象时，会用到spi机制，就会用到extenionloader

@@ -26,6 +26,7 @@ import org.springframework.stereotype.Component;
 
 @Component("demoServiceComponent")
 public class DemoServiceComponent implements DemoService {
+
     @Reference
     private DemoService demoService;
 
@@ -33,4 +34,5 @@ public class DemoServiceComponent implements DemoService {
     public String sayHello(String name) {
         return demoService.sayHello(name);
     }
+
 }
