@@ -30,6 +30,8 @@ public class RandomLoadBalance extends AbstractLoadBalance {
 
     public static final String NAME = "random";
 
+    // 带权重的随机负载
+    // 从目标的invokers中，根据权重随机选择一个执行调用
     @Override
     protected <T> Invoker<T> doSelect(List<Invoker<T>> invokers, URL url, Invocation invocation) {
         // Number of invokers
@@ -67,5 +69,4 @@ public class RandomLoadBalance extends AbstractLoadBalance {
         // If all invokers have the same weight value or totalWeight=0, return evenly.
         return invokers.get(ThreadLocalRandom.current().nextInt(length));
     }
-
 }
