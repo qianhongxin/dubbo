@@ -30,7 +30,7 @@ public class RandomLoadBalance extends AbstractLoadBalance {
 
     public static final String NAME = "random";
 
-    // 带权重的随机负载
+    // 基于权重的随机负载
     // 从目标的invokers中，根据权重随机选择一个执行调用
     @Override
     protected <T> Invoker<T> doSelect(List<Invoker<T>> invokers, URL url, Invocation invocation) {
