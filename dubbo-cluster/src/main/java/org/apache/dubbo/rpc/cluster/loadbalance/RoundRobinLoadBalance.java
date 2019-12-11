@@ -92,21 +92,31 @@ public class RoundRobinLoadBalance extends AbstractLoadBalance {
             methodWeightMap.putIfAbsent(key, new ConcurrentHashMap<String, WeightedRoundRobin>());
             map = methodWeightMap.get(key);
         }
+
+        // 权重和
         int totalWeight = 0;
+        // 初始化maxCurrent
         long maxCurrent = Long.MIN_VALUE;
         long now = System.currentTimeMillis();
+
+        // 目标 invoker
         Invoker<T> selectedInvoker = null;
+        // 目标 WeightedRoundRobin
         WeightedRoundRobin selectedWRR = null;
         for (Invoker<T> invoker : invokers) {
+            // 生成 invoker 对应的唯一标识
             String identifyString = invoker.getUrl().toIdentityString();
             WeightedRoundRobin weightedRoundRobin = map.get(identifyString);
+            // 获取 invoker 对应的权重
             int weight = getWeight(invoker, invocation);
 
+            // 如果invoker对应的 WeightedRoundRobin 为空，则创建一个，并放入 map 中
             if (weightedRoundRobin == null) {
                 weightedRoundRobin = new WeightedRoundRobin();
                 weightedRoundRobin.setWeight(weight);
                 map.putIfAbsent(identifyString, weightedRoundRobin);
             }
+            // 如果权重更新了，这里会更新权重值
             if (weight != weightedRoundRobin.getWeight()) {
                 //weight changed
                 weightedRoundRobin.setWeight(weight);
@@ -143,7 +153,9 @@ public class RoundRobinLoadBalance extends AbstractLoadBalance {
             selectedWRR.sel(totalWeight);
             return selectedInvoker;
         }
+
         // should not happen here
+        // 这边不应该执行到，这里是为了降级考虑，返回第一个
         return invokers.get(0);
     }
 
